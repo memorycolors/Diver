@@ -10,8 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -23,12 +21,11 @@ public class App extends Application {
     final short SCENE_WIDTH = 640;
     int posicionFondo = 0;
     int posicionFondo2 = SCENE_WIDTH;
-    int posicionbuzo = 50;
-    byte buzodireccion = 0;
-    short stickHeight = 50;        
-    short buzoPosX = (short)((SCENE_HEIGHT-stickHeight)/2);
+    int posicionbuzo = 0;
+    short buzoHeight = 0;        
+    short buzoPosY = (short)((SCENE_HEIGHT-buzoHeight)/2);
     byte velocidadbuzo =0 ;
-    byte buzo = 0;
+    
             
     @Override
     public void start(Stage stage) {
@@ -38,57 +35,51 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
         
-        //dibujo del pez con elipse
-        Ellipse ellipse = new Ellipse();
-        ellipse.setCenterX(200);
-        ellipse.setCenterY(400);
-        ellipse.setRadiusX(50);
-        ellipse.setRadiusY(40);
-        ellipse.setFill(Color.ORANGE);
-        root.getChildren().add(ellipse);
+        
+        
         
         //imagen fondo 1
         Image image2 = new Image(getClass().getResourceAsStream("/images/ocean.gif"));
-        ImageView imageView2 = new ImageView(image2);
-        imageView2.setX(posicionFondo); // POSICION HORIZONTALMENTE 
-        imageView2.setY(0); // POSICION DE LA FOTO VERTICALMETE
-        imageView2.setFitHeight(SCENE_HEIGHT);
-        imageView2.setFitWidth(SCENE_WIDTH);
-        root.getChildren().add(imageView2);
+        ImageView imageOceano1 = new ImageView(image2);
+        imageOceano1.setX(posicionFondo); // POSICION HORIZONTALMENTE 
+        imageOceano1.setY(0); // POSICION DE LA FOTO VERTICALMETE
+        imageOceano1.setFitHeight(SCENE_HEIGHT);
+        imageOceano1.setFitWidth(SCENE_WIDTH);
+        root.getChildren().add(imageOceano1);
         
         
         
         //imagen fondo 2
         Image image3 = new Image(getClass().getResourceAsStream("/images/ocean2.gif"));
-        ImageView imageView3 = new ImageView(image3);
-        imageView3.setX(posicionFondo2);  
-        imageView3.setY(0);
-        imageView3.setFitHeight(SCENE_HEIGHT);
-        imageView3.setFitWidth(SCENE_WIDTH);
-        root.getChildren().add(imageView3);
+        ImageView imageOceano2 = new ImageView(image3);
+        imageOceano2.setX(posicionFondo2);  
+        imageOceano2.setY(0);
+        imageOceano2.setFitHeight(SCENE_HEIGHT);
+        imageOceano2.setFitWidth(SCENE_WIDTH);
+        root.getChildren().add(imageOceano2);
         
         //imagen buzo
         Image image1 = new Image(getClass().getResourceAsStream("/images/diver.png"));
-        ImageView imageView1 = new ImageView(image1);
-        imageView1.setX(posicionbuzo); // posicion del buzo horizontal
-        imageView1.setY(300); // posicion del buzo verticalmente
-        root.getChildren().add(imageView1);
-        imageView1.setFitHeight(80);
-        imageView1.setFitWidth(100);  
+        ImageView imageBuzo = new ImageView(image1);
+        imageBuzo.setX(posicionbuzo); // posicion del buzo horizontal
+        imageBuzo.setY(posicionbuzo); // posicion del buzo verticalmente
+        root.getChildren().add(imageBuzo);
+        imageBuzo.setFitHeight(80);
+        imageBuzo.setFitWidth(100);  
         
         
         // CONTROL DEL TECLADO DEL BUZO
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(final KeyEvent keyEvent) {
                 switch(keyEvent.getCode()) {
-                    case LEFT:
-                      //  buzo.setY(buzo.getY())-150;
-                        buzodireccion = -1;
+                    case UP:
+                        posicionbuzo -=1;
+                        imageBuzo.setY(posicionbuzo);
                         break;
                     
-                    case RIGHT:
-                       // buzo.setX(buzo.getX())-150;
-                        buzodireccion = 1;
+                    case DOWN:
+                        posicionbuzo  +=1;
+                        imageBuzo.setY(posicionbuzo);
                         break;
                 }                
             }
@@ -102,37 +93,40 @@ public class App extends Application {
                         posicionFondo --;
                         posicionFondo2--;
                         
-                        imageView2.setX(posicionFondo);
-                        imageView3.setX(posicionFondo2);
+                        imageOceano1.setX(posicionFondo);
+                        imageOceano2.setX(posicionFondo2);
                         
                             
                         if(posicionFondo2 == 0){
                             posicionFondo = 0;
                             posicionFondo2 = SCENE_WIDTH;
-                            imageView2.setX(posicionFondo);
-                            imageView2.setX(posicionFondo2);
+                            imageOceano1.setX(posicionFondo);
+                            imageOceano2.setX(posicionFondo2);
                             
-                    //ANIMACIÓN DEL BUZO
-                    imageView1.setX(buzoPosX);
-                    buzoPosX += velocidadbuzo * buzodireccion;
-                    if(buzoPosX <= 0 || buzoPosX >= SCENE_HEIGHT-stickHeight) {
-                        buzodireccion = 0;
+                   // ANIMACIÓN DEL BUZO
+                    imageBuzo.setY(buzoPosY);
+                    buzoPosY += velocidadbuzo * posicionbuzo;
+                    if(buzoPosY <= 0 || buzoPosY >= SCENE_HEIGHT-buzoHeight) {
+                        posicionbuzo = 0;
                     }
-                    if(buzoPosX <= 0) {
-                        buzodireccion = 0;
-                        buzoPosX = 0;
-                    } else if (buzoPosX >= SCENE_HEIGHT-stickHeight) {
-                        buzodireccion = 0;
-                        buzoPosX = (short)(SCENE_HEIGHT-stickHeight);
+                    if(buzoPosY <= 0) {
+                        posicionbuzo = 0;
+                        buzoPosY = 0;
+                        
+                    } else if (buzoPosY >= SCENE_HEIGHT-buzoHeight) {
+                        posicionbuzo = 0;
+                        buzoPosY = (short)(SCENE_HEIGHT-buzoHeight);
                     }
                             
                     
                         }
                     }
                 })
+                
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+
     }
                     
     public static void main(String[] args) {
