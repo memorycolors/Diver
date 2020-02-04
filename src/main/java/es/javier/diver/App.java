@@ -38,6 +38,7 @@ public class App extends Application {
         
         
         
+        
         //imagen fondo 1
         Image image2 = new Image(getClass().getResourceAsStream("/images/ocean.gif"));
         ImageView imageOceano1 = new ImageView(image2);
@@ -46,7 +47,6 @@ public class App extends Application {
         imageOceano1.setFitHeight(SCENE_HEIGHT);
         imageOceano1.setFitWidth(SCENE_WIDTH);
         root.getChildren().add(imageOceano1);
-        
         
         
         //imagen fondo 2
@@ -58,28 +58,51 @@ public class App extends Application {
         imageOceano2.setFitWidth(SCENE_WIDTH);
         root.getChildren().add(imageOceano2);
         
-        //imagen buzo
+        
+        //imagen tiburon 
+        Image image4 = new Image(getClass().getResourceAsStream("/images/tiburon.png"));
+        ImageView imagetiburon = new ImageView(image4);
+        imagetiburon.setX(420); 
+        imagetiburon.setY(365);
+        imagetiburon.setFitHeight(100);
+        imagetiburon.setFitWidth(250);
+        root.getChildren().add(imagetiburon);
+        
+        
+       //imagen buzo
         Image image1 = new Image(getClass().getResourceAsStream("/images/diver.png"));
         ImageView imageBuzo = new ImageView(image1);
         imageBuzo.setX(posicionbuzo); // posicion del buzo horizontal
         imageBuzo.setY(posicionbuzo); // posicion del buzo verticalmente
         root.getChildren().add(imageBuzo);
         imageBuzo.setFitHeight(80);
-        imageBuzo.setFitWidth(100);  
+        imageBuzo.setFitWidth(100);
+        
+        
+        
+        
         
         
         // CONTROL DEL TECLADO DEL BUZO
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(final KeyEvent keyEvent) {
                 switch(keyEvent.getCode()) {
+                    
                     case UP:
-                        posicionbuzo -=1;
-                        imageBuzo.setY(posicionbuzo);
+                        if(imageBuzo.getY() > 0){
+                         // buzoPosY = 0;
+                        
+                            posicionbuzo -=10;
+                            imageBuzo.setY(posicionbuzo);
+                        }                             
                         break;
                     
                     case DOWN:
-                        posicionbuzo  +=1;
-                        imageBuzo.setY(posicionbuzo);
+                        if((imageBuzo.getY()+imageBuzo.getFitHeight()) < 480){
+                            // System.out.println(imageBuzo.getY());
+                            posicionbuzo  +=10;
+                            imageBuzo.setY(posicionbuzo);
+                        }
                         break;
                 }                
             }
@@ -102,23 +125,7 @@ public class App extends Application {
                             posicionFondo2 = SCENE_WIDTH;
                             imageOceano1.setX(posicionFondo);
                             imageOceano2.setX(posicionFondo2);
-                            
-                   // ANIMACIÓN DEL BUZO
-                    imageBuzo.setY(buzoPosY);
-                    buzoPosY += velocidadbuzo * posicionbuzo;
-                    if(buzoPosY <= 0 || buzoPosY >= SCENE_HEIGHT-buzoHeight) {
-                        posicionbuzo = 0;
-                    }
-                    if(buzoPosY <= 0) {
-                        posicionbuzo = 0;
-                        buzoPosY = 0;
-                        
-                    } else if (buzoPosY >= SCENE_HEIGHT-buzoHeight) {
-                        posicionbuzo = 0;
-                        buzoPosY = (short)(SCENE_HEIGHT-buzoHeight);
-                    }
-                            
-                    
+                                              
                         }
                     }
                 })
