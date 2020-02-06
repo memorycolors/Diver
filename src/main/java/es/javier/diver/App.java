@@ -78,10 +78,7 @@ public class App extends Application {
         imageBuzo.setFitHeight(80);
         imageBuzo.setFitWidth(100);
         
-        
-        
-        
-        
+    
         
         // CONTROL DEL TECLADO DEL BUZO
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
