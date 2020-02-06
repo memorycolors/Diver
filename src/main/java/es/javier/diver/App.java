@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -25,7 +26,9 @@ public class App extends Application {
     short buzoHeight = 0;        
     short buzoPosY = (short)((SCENE_HEIGHT-buzoHeight)/2);
     byte velocidadbuzo =0 ;
-    
+    int tiburones = 400;
+    int direcciontiburon =1;
+    int velocidadtiburon = 0;
             
     @Override
     public void start(Stage stage) {
@@ -78,6 +81,13 @@ public class App extends Application {
         imageBuzo.setFitHeight(80);
         imageBuzo.setFitWidth(100);
         
+            Rectangle r = new Rectangle();
+            r.setX(50);
+            r.setY(50);
+            r.setWidth(200);
+            r.setHeight(100);
+            r.setArcWidth(20);
+            r.setArcHeight(20);
     
         
         // CONTROL DEL TECLADO DEL BUZO
@@ -110,6 +120,8 @@ public class App extends Application {
                 // 0.017 ~= 60 FPS
                 new KeyFrame(Duration.seconds(0.017), new EventHandler<ActionEvent>() {
                     public void handle(ActionEvent ae) {
+                        
+                       //animacion fondo de oceano   
                         posicionFondo --;
                         posicionFondo2--;
                         
@@ -124,13 +136,29 @@ public class App extends Application {
                             imageOceano2.setX(posicionFondo2);
                                               
                         }
+                    //animacion tiburones 
+                     tiburones --  ;
+                     imagetiburon.setX(tiburones);
+                        velocidadtiburon -=3;
+                     imagetiburon.setX(velocidadtiburon);
+                     
+                     // colision de buzo y tiburones 
+                     
+                     
+                     
+                     
+                     
+                     
                     }
                 })
                 
         );
+        
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-
+        
+        
+    
     }
                     
     public static void main(String[] args) {
