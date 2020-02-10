@@ -82,12 +82,12 @@ public class App extends Application {
         
         //rectangulo para el buzo
         
-        Rectangle rectangle = new Rectangle();
-            rectangle.setX(posicionbuzo);
-            rectangle.setY(posicionbuzo);
-            rectangle.setWidth(100);
-            rectangle.setHeight(80);
-        root.getChildren().add(rectangle);
+        Rectangle rectanglepersonaje = new Rectangle();
+            rectanglepersonaje.setX(posicionbuzo);
+            rectanglepersonaje.setY(posicionbuzo);
+            rectanglepersonaje.setWidth(100);
+            rectanglepersonaje.setHeight(80);
+        root.getChildren().add(rectanglepersonaje);
         
        //imagen buzo
        
@@ -101,7 +101,7 @@ public class App extends Application {
         
         //grupo de personaje 
         Group grupopersonaje = new Group();
-        grupopersonaje.getChildren().add(rectangle);
+        grupopersonaje.getChildren().add(rectanglepersonaje);
         grupopersonaje.getChildren().add(imageBuzo);
         root.getChildren().add(grupopersonaje);  
         
@@ -165,7 +165,7 @@ public class App extends Application {
                      grupotiburon.setLayoutX(velocidadtiburon);
                      
                      // colision de buzo y tiburones 
-                    Shape shapeCollision = Shape.intersect(rectangle, rectangletiburon);
+                    Shape shapeCollision = Shape.intersect(rectanglepersonaje, rectangletiburon);
                     boolean colisionVacia = shapeCollision.getBoundsInLocal().isEmpty();
                     if(colisionVacia == false && direcciontiburon == 1) {
                         direcciontiburon = -1;
