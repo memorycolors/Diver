@@ -11,6 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
@@ -31,7 +34,8 @@ public class App extends Application {
     int tiburones = 0;
     int direcciontiburon =1;
     int velocidadtiburon = 0;
-            
+    int velocidadpeces = 0;
+    int peces = 0;        
     @Override
     public void start(Stage stage) {
         Pane root = new Pane();
@@ -89,6 +93,26 @@ public class App extends Application {
             rectanglepersonaje.setHeight(80);
         root.getChildren().add(rectanglepersonaje);
         
+       // peces con shape
+       // cuerpo del pez
+       
+        Ellipse ellipse = new Ellipse(); {
+            ellipse.setCenterX(100);
+            ellipse.setCenterY(50);
+            ellipse.setRadiusX(20);
+            ellipse.setRadiusY(8);
+            ellipse.setFill(Color.ORANGE);
+       root.getChildren().add(ellipse);
+       }
+       // cola del pez 
+       Polygon polygon = new Polygon();{
+       polygon.getPoints().addAll(new Double[]{
+            0.0, 0.0,
+            20.0, 10.0,
+            10.0, 30.0 });
+       ellipse.setFill(Color.ORANGE);
+       root.getChildren().add(polygon);
+        }
        //imagen buzo
        
         Image image1 = new Image(getClass().getResourceAsStream("/images/diver.png"));
@@ -150,7 +174,7 @@ public class App extends Application {
                         imageOceano1.setX(posicionFondo);
                         imageOceano2.setX(posicionFondo2);
                         
-                            
+                        // animacion del fondo 2    
                         if(posicionFondo2 == 0){
                             posicionFondo = 0;
                             posicionFondo2 = SCENE_WIDTH;
@@ -164,11 +188,18 @@ public class App extends Application {
                         velocidadtiburon -=3;
                      grupotiburon.setLayoutX(velocidadtiburon);
                      
+                     //
+                   //  peces --;
+                    // grupopeces.setLayoutX(peces);
+                   //     velocidadpeces -=2;
+                   //  grupopeces.setLayoutX(velocidadpeces)
+                     
                      // colision de buzo y tiburones 
                     Shape shapeCollision = Shape.intersect(rectanglepersonaje, rectangletiburon);
                     boolean colisionVacia = shapeCollision.getBoundsInLocal().isEmpty();
                     if(colisionVacia == false && direcciontiburon == 1) {
-                        direcciontiburon = -1;
+                        direcciontiburon = 0;
+                        System.out.println(colisionVacia);
                         //score++;
                        // textScore.setText(String.valueOf(score));
                     }
