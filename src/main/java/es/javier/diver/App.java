@@ -93,7 +93,7 @@ public class App extends Application {
             rectanglepersonaje.setHeight(80);
         root.getChildren().add(rectanglepersonaje);
         
-       // peces con shape
+       // peces con forma
        // cuerpo del pez
        
         Ellipse ellipse = new Ellipse(); {
@@ -102,15 +102,16 @@ public class App extends Application {
             ellipse.setRadiusX(20);
             ellipse.setRadiusY(8);
             ellipse.setFill(Color.ORANGE);
-       root.getChildren().add(ellipse);
+        root.getChildren().add(ellipse);
        }
        // cola del pez 
        Polygon polygon = new Polygon();{
        polygon.getPoints().addAll(new Double[]{
-            0.0, 0.0,
-            20.0, 10.0,
-            10.0, 30.0 });
-       ellipse.setFill(Color.ORANGE);
+            50.0, 40.0,
+            25.0, 60.0,
+            50.0, 70.0 });
+       //polygon.setX(100);
+       polygon.setFill(Color.ORANGE);
        root.getChildren().add(polygon);
         }
        //imagen buzo
