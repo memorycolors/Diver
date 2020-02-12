@@ -5,17 +5,20 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -26,6 +29,7 @@ import javafx.util.Duration;
 public class App extends Application {
     final short SCENE_HEIGHT = 480;
     final short SCENE_WIDTH = 640;
+    final short TEXT_SIZE = 24;
     int posicionFondo = 0;
     int posicionFondo2 = SCENE_WIDTH;
     int posicionbuzo = 0;
@@ -43,7 +47,7 @@ public class App extends Application {
     Text textScore;
     Text textHighScore;
     // Puntuación actual
-    int score;
+    int score=0;
     // Puntuación máxima
     int highScore;
     @Override
@@ -141,7 +145,15 @@ public class App extends Application {
             rectanglepersonaje.setHeight(80);
         root.getChildren().add(rectanglepersonaje);
         
-       
+        //imagen de bombona de oxigeno (seran las vidas que le queden)
+        Image image5 = new Image(getClass().getResourceAsStream("/images/bombona.png"));
+        ImageView imagebombona1 = new ImageView(image5);
+        imagebombona1.setX(posicionbuzo); // posicion del buzo horizontal
+        imagebombona1.setY(posicionbuzo); // posicion del buzo verticalmente
+        root.getChildren().add(imagebombona1);
+        //imagebombona1.setFitHeight();
+        //imagebombona1.setFitWidth(100);
+        
        //imagen buzo
        
         Image image1 = new Image(getClass().getResourceAsStream("/images/diver.png"));
@@ -172,7 +184,36 @@ public class App extends Application {
         grupopez.getChildren().add(colapez);
         root.getChildren().add(grupopez);
        
-        
+       // Panel para mostrar los textos (puntuaciones)
+        HBox paneTextScore = new HBox();
+        paneTextScore.setTranslateY(20);
+        paneTextScore.setMinWidth(SCENE_WIDTH);
+        paneTextScore.setAlignment(Pos.CENTER);
+        root.getChildren().add(paneTextScore);
+
+        // Texto de etiqueta para la puntuación
+        Text textTitleScore = new Text("Score: ");
+        textTitleScore.setFont(Font.font(TEXT_SIZE));
+        textTitleScore.setFill(Color.WHITE);
+        // Texto para la puntuación
+        textScore = new Text("0");
+        textScore.setFont(Font.font(TEXT_SIZE));
+        textScore.setFill(Color.WHITE);
+        // Texto de etiqueta para la puntuación máxima
+        Text textTitleMaxScore = new Text("          Max.Score: ");
+        textTitleMaxScore.setFont(Font.font(TEXT_SIZE));
+        textTitleMaxScore.setFill(Color.WHITE);
+        // Texto para la puntuación máxima
+        textHighScore = new Text("0");
+        textHighScore.setFont(Font.font(TEXT_SIZE));
+        textHighScore.setFill(Color.WHITE);
+
+        // Añadir los textos al panel reservado para ellos 
+        paneTextScore.setSpacing(10);
+        paneTextScore.getChildren().add(textTitleScore);
+        paneTextScore.getChildren().add(textScore);
+        paneTextScore.getChildren().add(textTitleMaxScore);
+        paneTextScore.getChildren().add(textHighScore);
         
         // CONTROL DEL TECLADO DEL BUZO
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -229,15 +270,16 @@ public class App extends Application {
                      //
                     peces --;
                     grupopez.setLayoutX(peces);
-                       velocidadpeces -=3;
+                       velocidadpeces -=1;
                     grupopez.setLayoutX(velocidadpeces);
                     grupopez.setLayoutY(300);
-                     
+                    
+                            
                      
                      // colision de buzo y tiburones 
                     Shape shapeCollision = Shape.intersect(rectanglepersonaje, rectangletiburon);
                     boolean colisionVacia = shapeCollision.getBoundsInLocal().isEmpty();
-                    if(colisionVacia == false && direcciontiburon == 1) {
+                    if(colisionVacia == false  && direcciontiburon == 1) {
                         direcciontiburon = 0;
                         System.out.println(colisionVacia);
                         //score++;
