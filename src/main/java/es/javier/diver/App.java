@@ -12,10 +12,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -33,9 +34,18 @@ public class App extends Application {
     byte velocidadbuzo =0 ;
     int tiburones = 0;
     int direcciontiburon =1;
+    int direccionpez =1;
     int velocidadtiburon = 0;
-    int velocidadpeces = 0;
-    int peces = 0;        
+    int velocidadpeces = 400;
+    int peces = 0;
+    
+    // textos para la puntuaciones 
+    Text textScore;
+    Text textHighScore;
+    // Puntuación actual
+    int score;
+    // Puntuación máxima
+    int highScore;
     @Override
     public void start(Stage stage) {
         Pane root = new Pane();
@@ -66,6 +76,44 @@ public class App extends Application {
         imageOceano2.setFitWidth(SCENE_WIDTH);
         root.getChildren().add(imageOceano2);
         
+        // peces con forma
+       // cuerpo del pez
+       
+        Ellipse cuerpopez = new Ellipse(); {
+            cuerpopez.setCenterX(20);
+            cuerpopez.setCenterY(20);
+            cuerpopez.setRadiusX(20);
+            cuerpopez.setRadiusY(8);
+            cuerpopez.setFill(Color.ORANGE);
+        root.getChildren().add(cuerpopez);
+       }
+        //cola del pez 
+       Ellipse colapez = new Ellipse(); {
+            colapez.setCenterX(43);
+            colapez.setCenterY(20);
+            colapez.setRadiusX(8);
+            colapez.setRadiusY(4);
+            colapez.setFill(Color.ORANGE);
+        root.getChildren().add(colapez);
+       } 
+        
+       // ojo del pez 
+        Circle ojopez = new Circle();{
+            ojopez.setCenterX(8);
+            ojopez.setCenterY(15);
+            ojopez.setRadius(4);
+            ojopez.setFill(Color.WHITE);
+        root.getChildren().add(ojopez);
+        }
+        
+        // pupila del pez 
+        Circle pupilapez = new Circle();
+            pupilapez.setCenterX(8);
+            pupilapez.setCenterY(15);
+            pupilapez.setRadius(2);
+            pupilapez.setFill(Color.BLACK);
+        root.getChildren().add(pupilapez);
+       
         //Rectangulo tiburon
         Rectangle rectangletiburon = new Rectangle();
             rectangletiburon.setX(420);
@@ -93,27 +141,7 @@ public class App extends Application {
             rectanglepersonaje.setHeight(80);
         root.getChildren().add(rectanglepersonaje);
         
-       // peces con forma
-       // cuerpo del pez
        
-        Ellipse ellipse = new Ellipse(); {
-            ellipse.setCenterX(100);
-            ellipse.setCenterY(50);
-            ellipse.setRadiusX(20);
-            ellipse.setRadiusY(8);
-            ellipse.setFill(Color.ORANGE);
-        root.getChildren().add(ellipse);
-       }
-       // cola del pez 
-       Polygon polygon = new Polygon();{
-       polygon.getPoints().addAll(new Double[]{
-            50.0, 40.0,
-            25.0, 60.0,
-            50.0, 70.0 });
-       //polygon.setX(100);
-       polygon.setFill(Color.ORANGE);
-       root.getChildren().add(polygon);
-        }
        //imagen buzo
        
         Image image1 = new Image(getClass().getResourceAsStream("/images/diver.png"));
@@ -135,6 +163,15 @@ public class App extends Application {
         grupotiburon.getChildren().add(rectangletiburon);
         grupotiburon.getChildren().add(imagetiburon);
         root.getChildren().add(grupotiburon); 
+        
+        //grupo del pez 
+        Group grupopez = new Group();
+        grupopez.getChildren().add(cuerpopez);
+        grupopez.getChildren().add(ojopez);
+        grupopez.getChildren().add(pupilapez);
+        grupopez.getChildren().add(colapez);
+        root.getChildren().add(grupopez);
+       
         
         
         // CONTROL DEL TECLADO DEL BUZO
@@ -190,10 +227,12 @@ public class App extends Application {
                      grupotiburon.setLayoutX(velocidadtiburon);
                      
                      //
-                   //  peces --;
-                    // grupopeces.setLayoutX(peces);
-                   //     velocidadpeces -=2;
-                   //  grupopeces.setLayoutX(velocidadpeces)
+                    peces --;
+                    grupopez.setLayoutX(peces);
+                       velocidadpeces -=3;
+                    grupopez.setLayoutX(velocidadpeces);
+                    grupopez.setLayoutY(300);
+                     
                      
                      // colision de buzo y tiburones 
                     Shape shapeCollision = Shape.intersect(rectanglepersonaje, rectangletiburon);
@@ -203,6 +242,14 @@ public class App extends Application {
                         System.out.println(colisionVacia);
                         //score++;
                        // textScore.setText(String.valueOf(score));
+                    }
+                    Shape shapeCollision2 = Shape.intersect(rectanglepersonaje,cuerpopez);
+                    boolean colisionVacia2 = shapeCollision2.getBoundsInLocal().isEmpty();
+                    if(colisionVacia2 == false && direccionpez == 1) {
+                        direccionpez = 0;
+                        System.out.println(colisionVacia);
+                        score++;
+                        textScore.setText(String.valueOf(score));
                     }
                      
                      
