@@ -42,7 +42,7 @@ public class App extends Application {
     int velocidadtiburon = 0;
     int velocidadpeces = 400;
     int peces = 0;
-    
+    int vida = 3;
     // textos para la puntuaciones 
     Text textScore;
     Text textHighScore;
@@ -119,11 +119,13 @@ public class App extends Application {
         root.getChildren().add(pupilapez);
        
         //Rectangulo tiburon
+        
         Rectangle rectangletiburon = new Rectangle();
             rectangletiburon.setX(420);
             rectangletiburon.setY(365);
             rectangletiburon.setWidth(130);
             rectangletiburon.setHeight(60);
+            rectangletiburon.setFill(javafx.scene.paint.Color.TRANSPARENT);
         root.getChildren().add(rectangletiburon);      
         
         //imagen tiburon 
@@ -143,40 +145,70 @@ public class App extends Application {
             rectanglepersonaje.setY(posicionbuzo);
             rectanglepersonaje.setWidth(100);
             rectanglepersonaje.setHeight(80);
+            rectanglepersonaje.setFill(javafx.scene.paint.Color.TRANSPARENT);
         root.getChildren().add(rectanglepersonaje);
         
-        //imagen de bombona de oxigeno (seran las vidas que le queden)
+        //imagen de bombona de oxigeno (1) (seran las vidas que le queden)
+        
+        // imagen de vida 1 
+        
         Image image5 = new Image(getClass().getResourceAsStream("/images/bombona.png"));
         ImageView imagebombona1 = new ImageView(image5);
-        imagebombona1.setX(posicionbuzo); // posicion del buzo horizontal
-        imagebombona1.setY(posicionbuzo); // posicion del buzo verticalmente
+        imagebombona1.setX(500); 
+        imagebombona1.setY(4);
+        imagebombona1.setFitHeight(60);
+        imagebombona1.setFitWidth(20);
         root.getChildren().add(imagebombona1);
-        //imagebombona1.setFitHeight();
-        //imagebombona1.setFitWidth(100);
+       
+        
+        // imagen de vida 2 
+        
+        Image image6 = new Image(getClass().getResourceAsStream("/images/bombona2.png"));
+        ImageView imagebombona2 = new ImageView(image6);
+        imagebombona2.setX(540); 
+        imagebombona2.setY(4);
+        imagebombona2.setFitHeight(60);
+        imagebombona2.setFitWidth(20);
+        root.getChildren().add(imagebombona2);
+        
+        //imagen de vida 3
+        
+        Image image7 = new Image(getClass().getResourceAsStream("/images/bombona3.png"));
+        ImageView imagebombona3 = new ImageView(image7);
+        imagebombona3.setX(580); 
+        imagebombona3.setY(4);
+        imagebombona3.setFitHeight(60);
+        imagebombona3.setFitWidth(20);
+        root.getChildren().add(imagebombona3);
+       
         
        //imagen buzo
        
         Image image1 = new Image(getClass().getResourceAsStream("/images/diver.png"));
         ImageView imageBuzo = new ImageView(image1);
-        imageBuzo.setX(posicionbuzo); // posicion del buzo horizontal
-        imageBuzo.setY(posicionbuzo); // posicion del buzo verticalmente
-        root.getChildren().add(imageBuzo);
+        imageBuzo.setX(posicionbuzo); 
+        imageBuzo.setY(posicionbuzo); 
         imageBuzo.setFitHeight(80);
         imageBuzo.setFitWidth(100);
+        root.getChildren().add(imageBuzo);
         
-        //grupo de personaje 
+        
+        //grupo de personaje
+        
         Group grupopersonaje = new Group();
         grupopersonaje.getChildren().add(rectanglepersonaje);
         grupopersonaje.getChildren().add(imageBuzo);
         root.getChildren().add(grupopersonaje);  
         
         //grupo de tiburon
+        
         Group grupotiburon = new Group();
         grupotiburon.getChildren().add(rectangletiburon);
         grupotiburon.getChildren().add(imagetiburon);
         root.getChildren().add(grupotiburon); 
         
         //grupo del pez 
+        
         Group grupopez = new Group();
         grupopez.getChildren().add(cuerpopez);
         grupopez.getChildren().add(ojopez);
@@ -185,6 +217,7 @@ public class App extends Application {
         root.getChildren().add(grupopez);
        
        // Panel para mostrar los textos (puntuaciones)
+       
         HBox paneTextScore = new HBox();
         paneTextScore.setTranslateY(20);
         paneTextScore.setMinWidth(SCENE_WIDTH);
@@ -195,10 +228,12 @@ public class App extends Application {
         Text textTitleScore = new Text("Score: ");
         textTitleScore.setFont(Font.font(TEXT_SIZE));
         textTitleScore.setFill(Color.WHITE);
+        
         // Texto para la puntuación
         textScore = new Text("0");
         textScore.setFont(Font.font(TEXT_SIZE));
         textScore.setFill(Color.WHITE);
+        
         // Texto de etiqueta para la puntuación máxima
         Text textTitleMaxScore = new Text("          Max.Score: ");
         textTitleMaxScore.setFont(Font.font(TEXT_SIZE));
@@ -267,29 +302,46 @@ public class App extends Application {
                         velocidadtiburon -=3;
                      grupotiburon.setLayoutX(velocidadtiburon);
                      
-                     //
+                    //animacion del pez
                     peces --;
                     grupopez.setLayoutX(peces);
                        velocidadpeces -=1;
                     grupopez.setLayoutX(velocidadpeces);
                     grupopez.setLayoutY(300);
                     
-                            
                      
                      // colision de buzo y tiburones 
+                     
                     Shape shapeCollision = Shape.intersect(rectanglepersonaje, rectangletiburon);
                     boolean colisionVacia = shapeCollision.getBoundsInLocal().isEmpty();
                     if(colisionVacia == false  && direcciontiburon == 1) {
                         direcciontiburon = 0;
                         System.out.println(colisionVacia);
-                        //score++;
-                       // textScore.setText(String.valueOf(score));
+                        vida--;
+                            switch (vida) {
+                                case 1:
+                                   
+                                    
+                                    System.out.println("quita la primera vida");
+                                  break;
+                                  
+                                case 2:
+                                  System.out.println("quita la segunda vida");
+                                  break;
+                                
+                                case 3:
+                                  System.out.println("quita la tercera vida ");
+                                  break;
+                                
+}
                     }
+                    //colision de buzo y peces 
+                    
                     Shape shapeCollision2 = Shape.intersect(rectanglepersonaje,cuerpopez);
                     boolean colisionVacia2 = shapeCollision2.getBoundsInLocal().isEmpty();
                     if(colisionVacia2 == false && direccionpez == 1) {
                         direccionpez = 0;
-                        System.out.println(colisionVacia);
+                        System.out.println(colisionVacia2);
                         score++;
                         textScore.setText(String.valueOf(score));
                     }
