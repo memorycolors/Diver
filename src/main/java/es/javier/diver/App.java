@@ -36,10 +36,10 @@ public class App extends Application {
     short buzoHeight = 0;        
     short buzoPosY = (short)((SCENE_HEIGHT-buzoHeight)/2);
     byte velocidadbuzo =0 ;
-    int tiburones = 0;
-    int direcciontiburon =1;
+    //int tiburones = 0;
+    //int direcciontiburon =1;
     int direccionpez =1;
-    int velocidadtiburon = 0;
+    int velocidadtiburon = SCENE_WIDTH;
     int velocidadpeces = 400;
     int peces = 0;
     
@@ -50,6 +50,8 @@ public class App extends Application {
     int score=0;
     // Puntuación máxima
     int highScore;
+    
+    
     @Override
     public void start(Stage stage) {
         Pane root = new Pane();
@@ -84,68 +86,40 @@ public class App extends Application {
        // cuerpo del pez
        
         Ellipse cuerpopez = new Ellipse(); {
-            cuerpopez.setCenterX(20);
-            cuerpopez.setCenterY(20);
-            cuerpopez.setRadiusX(20);
-            cuerpopez.setRadiusY(8);
-            cuerpopez.setFill(Color.ORANGE);
+        cuerpopez.setCenterX(20);
+        cuerpopez.setCenterY(20);
+        cuerpopez.setRadiusX(20);
+        cuerpopez.setRadiusY(8);
+        cuerpopez.setFill(Color.ORANGE);
         root.getChildren().add(cuerpopez);
        }
         //cola del pez 
-       Ellipse colapez = new Ellipse(); {
-            colapez.setCenterX(43);
-            colapez.setCenterY(20);
-            colapez.setRadiusX(8);
-            colapez.setRadiusY(4);
-            colapez.setFill(Color.ORANGE);
+        Ellipse colapez = new Ellipse(); {
+        colapez.setCenterX(43);
+        colapez.setCenterY(20);
+        colapez.setRadiusX(8);
+        colapez.setRadiusY(4);
+        colapez.setFill(Color.ORANGE);
         root.getChildren().add(colapez);
        } 
         
        // ojo del pez 
         Circle ojopez = new Circle();{
-            ojopez.setCenterX(8);
-            ojopez.setCenterY(15);
-            ojopez.setRadius(4);
-            ojopez.setFill(Color.WHITE);
+        ojopez.setCenterX(8);
+        ojopez.setCenterY(15);
+        ojopez.setRadius(4);
+        ojopez.setFill(Color.WHITE);
         root.getChildren().add(ojopez);
         }
         
         // pupila del pez 
         Circle pupilapez = new Circle();
-            pupilapez.setCenterX(8);
-            pupilapez.setCenterY(15);
-            pupilapez.setRadius(2);
-            pupilapez.setFill(Color.BLACK);
+        pupilapez.setCenterX(8);
+        pupilapez.setCenterY(15);
+        pupilapez.setRadius(2);
+        pupilapez.setFill(Color.BLACK);
         root.getChildren().add(pupilapez);
-       
-        //Rectangulo tiburon
-        Rectangle rectangletiburon = new Rectangle();
-            rectangletiburon.setX(420);
-            rectangletiburon.setY(365);
-            rectangletiburon.setWidth(130);
-            rectangletiburon.setHeight(60);
-            rectangletiburon.setFill(javafx.scene.paint.Color.TRANSPARENT);
-        root.getChildren().add(rectangletiburon);      
-        
-        //imagen tiburon 
-        
-        Image image4 = new Image(getClass().getResourceAsStream("/images/tiburon.png"));
-        ImageView imagetiburon = new ImageView(image4);
-        imagetiburon.setX(420); 
-        imagetiburon.setY(365);
-        imagetiburon.setFitHeight(60);
-        imagetiburon.setFitWidth(130);
-        root.getChildren().add(imagetiburon);
-        
-        //rectangulo para el buzo
-        
-        Rectangle rectanglepersonaje = new Rectangle();
-            rectanglepersonaje.setX(posicionbuzo);
-            rectanglepersonaje.setY(posicionbuzo);
-            rectanglepersonaje.setWidth(100);
-            rectanglepersonaje.setHeight(80);
-            rectanglepersonaje.setFill(javafx.scene.paint.Color.TRANSPARENT);
-        root.getChildren().add(rectanglepersonaje);
+      
         
         //imagen de bombona de oxigeno (seran las vidas que le queden)
         // imagen de vida 1 
@@ -186,9 +160,20 @@ public class App extends Application {
         ImageView imageBuzo = new ImageView(image1);
         imageBuzo.setX(posicionbuzo); // posicion del buzo horizontal
         imageBuzo.setY(posicionbuzo); // posicion del buzo verticalmente
-        root.getChildren().add(imageBuzo);
+        //root.getChildren().add(imageBuzo);
         imageBuzo.setFitHeight(80);
         imageBuzo.setFitWidth(100);
+        
+        //rectangulo para el buzo
+        
+        Rectangle rectanglepersonaje = new Rectangle();
+        rectanglepersonaje.setX(posicionbuzo);
+        rectanglepersonaje.setY(posicionbuzo);
+        rectanglepersonaje.setWidth(100);
+        rectanglepersonaje.setHeight(80);
+        rectanglepersonaje.setVisible(false);
+        //rectanglepersonaje.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        //root.getChildren().add(rectanglepersonaje);
         
         //grupo de personaje 
         Group grupopersonaje = new Group();
@@ -196,11 +181,35 @@ public class App extends Application {
         grupopersonaje.getChildren().add(imageBuzo);
         root.getChildren().add(grupopersonaje);  
         
+        
+        
         //grupo de tiburon
         Group grupotiburon = new Group();
-        grupotiburon.getChildren().add(rectangletiburon);
+        //grupotiburon.getChildren().add(rectangletiburon);
+        //grupotiburon.getChildren().add(imagetiburon);       
+        grupotiburon.setLayoutX(SCENE_WIDTH);
+        grupotiburon.setLayoutY(365);
+        root.getChildren().add(grupotiburon);
+        
+        //Rectangulo tiburon
+        Rectangle rectangletiburon = new Rectangle();
+        //rectangletiburon.setX(420);
+        //rectangletiburon.setY(365);
+        rectangletiburon.setWidth(130);
+        rectangletiburon.setHeight(60);
+        rectangletiburon.setVisible(false);
+        //rectangletiburon.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        grupotiburon.getChildren().add(rectangletiburon);      
+        
+        //imagen tiburon        
+        Image image4 = new Image(getClass().getResourceAsStream("/images/tiburon.png"));
+        ImageView imagetiburon = new ImageView(image4);
+        //imagetiburon.setX(420); 
+        //imagetiburon.setY(365);
+        imagetiburon.setFitHeight(60);
+        imagetiburon.setFitWidth(130);
         grupotiburon.getChildren().add(imagetiburon);
-        root.getChildren().add(grupotiburon); 
+        
         
         //grupo del pez 
         Group grupopez = new Group();
@@ -287,42 +296,47 @@ public class App extends Application {
                             imageOceano2.setX(posicionFondo2);
                                               
                         }
-                    //animacion tiburones 
-                     tiburones --  ;
-                     grupotiburon.setLayoutX(tiburones);
-                        velocidadtiburon -=3;
-                     grupotiburon.setLayoutX(velocidadtiburon);
-                     
-                     //
-                    peces --;
-                    grupopez.setLayoutX(peces);
-                       velocidadpeces -=1;
-                    grupopez.setLayoutX(velocidadpeces);
-                    grupopez.setLayoutY(300);
-                    
-                            
-                     
-                     // colision de buzo y tiburones 
-                    Shape shapeCollision = Shape.intersect(rectanglepersonaje, rectangletiburon);
-                    boolean colisionVacia = shapeCollision.getBoundsInLocal().isEmpty();
-                    if(colisionVacia == false  && direcciontiburon == 1) {
-                        direcciontiburon = 0;
-                        System.out.println(colisionVacia);
-                        //score++;
-                       // textScore.setText(String.valueOf(score));
-                    }
-                    Shape shapeCollision2 = Shape.intersect(rectanglepersonaje,cuerpopez);
-                    boolean colisionVacia2 = shapeCollision2.getBoundsInLocal().isEmpty();
-                    if(colisionVacia2 == false && direccionpez == 1) {
-                        direccionpez = 0;
-                        System.out.println(colisionVacia);
-                        score++;
-                        textScore.setText(String.valueOf(score));
-                    }
-                     
-                     
-                    }
-                })
+                        //animacion tiburones 
+                        
+                        if(grupotiburon.getLayoutX()>(-image4.getWidth())){
+                            //tiburones --;
+                            //grupotiburon.setLayoutX(tiburones);
+                            velocidadtiburon -=3;
+                            grupotiburon.setLayoutX(velocidadtiburon);
+                        }else{
+                            velocidadtiburon=SCENE_WIDTH;
+                            grupotiburon.setLayoutX(SCENE_WIDTH);
+                        }
+                         //
+                        peces --;
+                        grupopez.setLayoutX(peces);
+                        velocidadpeces -=1;
+                        grupopez.setLayoutX(velocidadpeces);
+                        grupopez.setLayoutY(300);
+
+
+
+                         // colision de buzo y tiburones 
+                        Shape shapeCollision = Shape.intersect(rectanglepersonaje, rectangletiburon);
+                        boolean colisionVacia = shapeCollision.getBoundsInLocal().isEmpty();
+                        if(colisionVacia == false){//  && direcciontiburon == 1) {
+                            //direcciontiburon = 0;
+                            System.out.println(colisionVacia);
+                            //score++;
+                           // textScore.setText(String.valueOf(score));
+                        }
+                        Shape shapeCollision2 = Shape.intersect(rectanglepersonaje,cuerpopez);
+                        boolean colisionVacia2 = shapeCollision2.getBoundsInLocal().isEmpty();
+                        if(colisionVacia2 == false && direccionpez == 1) {
+                            direccionpez = 0;
+                            System.out.println(colisionVacia);
+                            score++;
+                            textScore.setText(String.valueOf(score));
+                        }
+
+
+                        }
+                    })
                 
         );
         
