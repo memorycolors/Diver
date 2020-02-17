@@ -40,7 +40,7 @@ public class App extends Application {
     //int direcciontiburon =1;
     int direccionpez =1;
     int velocidadtiburon = SCENE_WIDTH;
-    int velocidadpeces = 400;
+    int velocidadpeces = SCENE_WIDTH;
     int peces = 0;
     
     // textos para la puntuaciones 
@@ -172,7 +172,6 @@ public class App extends Application {
         rectanglepersonaje.setWidth(100);
         rectanglepersonaje.setHeight(80);
         rectanglepersonaje.setVisible(false);
-        //rectanglepersonaje.setFill(javafx.scene.paint.Color.TRANSPARENT);
         //root.getChildren().add(rectanglepersonaje);
         
         //grupo de personaje 
@@ -198,7 +197,6 @@ public class App extends Application {
         rectangletiburon.setWidth(130);
         rectangletiburon.setHeight(60);
         rectangletiburon.setVisible(false);
-        //rectangletiburon.setFill(javafx.scene.paint.Color.TRANSPARENT);
         grupotiburon.getChildren().add(rectangletiburon);      
         
         //imagen tiburon        
@@ -299,22 +297,27 @@ public class App extends Application {
                         //animacion tiburones 
                         
                         if(grupotiburon.getLayoutX()>(-image4.getWidth())){
-                            //tiburones --;
-                            //grupotiburon.setLayoutX(tiburones);
                             velocidadtiburon -=3;
                             grupotiburon.setLayoutX(velocidadtiburon);
                         }else{
                             velocidadtiburon=SCENE_WIDTH;
                             grupotiburon.setLayoutX(SCENE_WIDTH);
                         }
-                         //
+                         /*animacion de peces
                         peces --;
                         grupopez.setLayoutX(peces);
                         velocidadpeces -=1;
                         grupopez.setLayoutX(velocidadpeces);
                         grupopez.setLayoutY(300);
-
-
+                        */
+                        
+                        if(grupopez.getLayoutX()>(-image4.getWidth())){
+                            velocidadpeces -=2;
+                            grupopez.setLayoutX(velocidadpeces);
+                        }else{
+                            velocidadpeces=SCENE_WIDTH;
+                            grupopez.setLayoutX(SCENE_WIDTH);
+                        }
 
                          // colision de buzo y tiburones 
                         Shape shapeCollision = Shape.intersect(rectanglepersonaje, rectangletiburon);
@@ -327,8 +330,7 @@ public class App extends Application {
                         }
                         Shape shapeCollision2 = Shape.intersect(rectanglepersonaje,cuerpopez);
                         boolean colisionVacia2 = shapeCollision2.getBoundsInLocal().isEmpty();
-                        if(colisionVacia2 == false && direccionpez == 1) {
-                            direccionpez = 0;
+                        if(colisionVacia2 == false){
                             System.out.println(colisionVacia);
                             score++;
                             textScore.setText(String.valueOf(score));
